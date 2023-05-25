@@ -7,6 +7,8 @@ public interface IStats
     float GetMaxHealth();
     float GetMoveSpeed();
     void Initialize(IStats stats);
-    void SetOnDestroy(Action action);
+    void AddOnDestroy(Action action);
+
+    void AddOnTakeDamage(Action action);
 
 }

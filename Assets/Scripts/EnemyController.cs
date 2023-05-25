@@ -17,12 +17,14 @@ public class EnemyController : MonoBehaviour, IActivation
 
     private Coroutine shootCoroutine;
 
+
     void Awake()
     {
         dt = Time.fixedDeltaTime;
-        enemyStats.SetOnDestroy(() => {
+        enemyStats.AddOnDestroy(() => {
             gameObject.SetActive(false);
             StopCoroutine(shootCoroutine);
+            ScoreScript.scoreValue++;
         });
     }
     void Start()

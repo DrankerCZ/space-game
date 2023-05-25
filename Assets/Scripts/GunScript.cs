@@ -12,16 +12,14 @@ public class GunScript : MonoBehaviour
     private ObjectPool pool;
     private int projectileLayerIndex;
 
-    private ProjectileStats projectileStats;
+    private ProjectileStats _projectileStats;
 
     private void Start()
     {
         pool = ObjectPool.instance;
         projectileLayerIndex = GameManager.instance.LayerToIndex(projectileLayer);
-        projectileStats = GetComponent<ProjectileStats>();
+        _projectileStats = GetComponent<ProjectileStats>();
     }
-    
-
 
     public void Shoot()
     {
@@ -29,6 +27,6 @@ public class GunScript : MonoBehaviour
         p.gameObject.layer = projectileLayerIndex;
         p.gameObject.transform.position = projectileSpawn.position;
         p.gameObject.transform.transform.rotation = projectileSpawn.rotation;
-        p.activation.OnActive(projectileStats);
+        p.activation.OnActive(_projectileStats);
     }
 }

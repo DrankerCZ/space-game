@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-class ProjectileStats : MonoBehaviour, IWeaponStats
+public class ProjectileStats : MonoBehaviour, IWeaponStats, IStats
 {
     public float GetDamage()
     {
@@ -47,7 +47,7 @@ class ProjectileStats : MonoBehaviour, IWeaponStats
         return MoveSpeed;
     }
 
-    public void SetOnDestroy(Action action)
+    public void AddOnDestroy(Action action)
     {
         this._onDestroy = action;
     }
@@ -57,9 +57,14 @@ class ProjectileStats : MonoBehaviour, IWeaponStats
         _onHit();
     }
 
-    public void SetOnHit(Action action)
+    public void AddOnHit(Action action)
     {
-        this._onHit = action;
+        this._onHit += action;
+    }
+
+    public void AddOnTakeDamage(Action action)
+    {
+        throw new NotImplementedException();
     }
 
     [SerializeField] float Damage;

@@ -1,9 +1,9 @@
 using System;
 
-public interface IWeaponStats: IStats
+public interface IWeaponStats
 {
     float GetDamage();
     void OnHit();
 
-    void SetOnHit(Action action);
+    void AddOnHit(Action action);
 }

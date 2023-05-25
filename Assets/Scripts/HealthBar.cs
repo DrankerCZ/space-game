@@ -1,28 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider health;
-    public Image fill;
-
-    private void Update()
+    // Start is called before the first frame update
+    [SerializeField] Slider slider;
+    [SerializeField] Image fill;
+    [SerializeField] Gradient gradient;
+    void Start()
     {
-        transform.rotation = Quaternion.identity;
+        IStats stats = GetComponentInParent<IStats>();
+        if (stats != null)
+        {
+            slider.maxValue = stats.GetMaxHealth();
+            slider.value = stats.GetHealth();
+            fill.color = gradient.Evaluate(1);
+            stats.AddOnTakeDamage(() =>
+            {
+                slider.value = stats.GetHealth();
+                fill.color = gradient.Evaluate(stats.GetHealth() / stats.GetMaxHealth());
+            });
+        }
     }
 
-    public void setMaxHealth(float hp)
+    private void LateUpdate()
     {
-        health.maxValue = hp;
-        health.value = hp;
-    }
-
-    public void setHealth(float hp)
-    {
-        health.value = hp;
+        this.transform.rotation = Quaternion.identity;
     }
 }

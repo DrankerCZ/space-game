@@ -14,7 +14,7 @@ public class DefaultProjectile : MonoBehaviour, IActivation
         rb = GetComponent<Rigidbody2D>();
         maxDistance *= maxDistance;
         stats = GetComponent<ProjectileStats>();
-        stats.SetOnDestroy(() => {gameObject.SetActive(false); });
+        stats.AddOnDestroy(() => {gameObject.SetActive(false); });
     }
 
     void Start()
@@ -27,13 +27,12 @@ public class DefaultProjectile : MonoBehaviour, IActivation
     {
         if (collision.gameObject.TryGetComponent<IStats>(out IStats stats))
         {
+            stats.TakeDamage(this.stats.GetDamage());
             if (stats is IWeaponStats weaponStats)
             {
                 this.stats.TakeDamage(weaponStats.GetDamage());
-                weaponStats.TakeDamage(this.stats.GetDamage());
             } else
             {
-                stats.TakeDamage(this.stats.GetDamage());
                 this.gameObject.SetActive(false);
             }
         }
